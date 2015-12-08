@@ -12,6 +12,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.aj.sotf.graphics.Screen;
+import com.aj.sotf.input.Keyboard;
 import com.aj.sotf.input.Mouse;
 import com.aj.sotf.level.Level;
 
@@ -33,6 +34,7 @@ public class Game extends Canvas implements Runnable {
 	private Screen screen;
 	private Level level;
 	private Mouse mouse;
+	private Keyboard keys;
 	
 	public Game() {
 		Dimension dimension = new Dimension(width, height);
@@ -58,7 +60,10 @@ public class Game extends Canvas implements Runnable {
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 
-		level = new Level("/levels/spawn.png", screen, mouse);
+		keys = new Keyboard();
+		addKeyListener(keys);
+		
+		level = new Level("/levels/spawn.png", screen, mouse, keys);
 		
 	}
 	
@@ -90,7 +95,7 @@ public class Game extends Canvas implements Runnable {
 			
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println(updates + " ups, " + frames + " fps");
+//				System.out.println(updates + " ups, " + frames + " fps");
 				frame.setTitle(title + "   |   " + updates + " ups, " + frames + " fps");
 				updates = 0;
 				frames = 0;
@@ -99,6 +104,7 @@ public class Game extends Canvas implements Runnable {
 		}	}
 	
 	public void update() {
+		level.update();
 	}
 	
 	public void render() {

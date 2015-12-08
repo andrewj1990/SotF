@@ -1,12 +1,28 @@
 package com.aj.sotf.level.tile;
 
+import com.aj.sotf.graphics.Screen;
+import com.aj.sotf.graphics.Sprite;
+
 public class Tile {
 
 	private int width;
 	private int height;
 	
-	public Tile() {
-		
+	Sprite sprite;
+	
+	public static Tile grass_tile = new GrassTile(Sprite.s1);
+	public static Tile water_tile = new WaterTile(Sprite.water);
+	
+	public Tile(Sprite sprite) {
+		this.sprite = sprite;
+	}
+	
+	public void render(int xx, int yy, float intensity, Screen screen) {
+		sprite.render(xx, yy, intensity, screen);
+	}
+	
+	public boolean solid() {
+		return false;
 	}
 	
 }

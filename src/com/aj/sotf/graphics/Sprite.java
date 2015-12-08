@@ -12,7 +12,7 @@ public class Sprite {
 	
 	public static Sprite s1 = new Sprite(0, 0, 16, SpriteSheet.tiles);
 	public static Sprite s2 = new Sprite(1, 0, 16, SpriteSheet.tiles);
-	
+	public static Sprite water = new Sprite(0, 1, 16, SpriteSheet.tiles);
 	
 	public Sprite(int x, int y, int size, SpriteSheet sheet) {
 		this.size = size;

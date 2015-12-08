@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.aj.sotf.entity.Player;
 import com.aj.sotf.graphics.Screen;
 import com.aj.sotf.graphics.Sprite;
+import com.aj.sotf.input.Keyboard;
 import com.aj.sotf.input.Mouse;
+import com.aj.sotf.level.tile.Tile;
 
 
 public class Level {
@@ -19,6 +22,8 @@ public class Level {
 	private int height;
 	private Screen screen;
 	private Mouse mouse;
+	private Keyboard keys;
+	private Player player;
 	
 	private List<Integer> x_coords = new ArrayList<Integer>();
 	private List<Integer> y_coords = new ArrayList<Integer>();
@@ -26,11 +31,12 @@ public class Level {
 
 	private boolean[] visited;
 	
-	public Level(String path, Screen screen, Mouse mouse) {
+	public Level(String path, Screen screen, Mouse mouse, Keyboard keys) {
 		loadLevel(path);
 		this.screen = screen;
 		visited = new boolean[width * height];
 		this.mouse = mouse;
+		player = new Player(5, 5, keys, this);
 	}
 	
 	public void loadLevel(String path) {
@@ -44,6 +50,10 @@ public class Level {
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file!");
 		}
+	}
+	
+	public void update() {
+		player.update();
 	}
 	
 	public void render() {
@@ -65,7 +75,11 @@ public class Level {
 //		}
 		
 		// add lighting
-		floodFill(mouse.getX() / 16, mouse.getY() / 16, 1.0f);
+//		floodFill(Mouse.getX() / 16, Mouse.getY() / 16, 1.0f);
+		floodFill(player.getX() / 16, player.getY() / 16, 1.0f);
+
+//		player.update();
+		player.render(screen);
 //		floodFill2(5,5, 1.0f);
 	}
 	
@@ -108,7 +122,7 @@ public class Level {
 		while (x_coords.size() > 0) {
 			int xx = x_coords.get(0);
 			int yy = y_coords.get(0);
-			float new_intensity = intensity_list.get(0) * 0.90f;
+			float new_intensity = intensity_list.get(0) * 0.95f;
 						
 			if (xx < 0 || xx >= screen.width || yy < 0 || yy >= (screen.height / 16) - 1 || visited[xx + yy * width]) {
 				removeCoords();
@@ -117,7 +131,7 @@ public class Level {
 			
 			visited[xx + yy * width] = true;
 			
-			getTile(xx, yy).render(xx, yy, new_intensity, screen);
+			getTile2(xx, yy).render(xx, yy, new_intensity, screen);
 			
 			addCoords(xx + 1, yy, new_intensity);
 			addCoords(xx, yy + 1, new_intensity);
@@ -157,6 +171,13 @@ public class Level {
 		if (tiles[coord] == 0xff00ff00) return Sprite.s1;
 		else if (tiles[coord] == 0xff0000ff) return Sprite.s2;
 		return Sprite.s1;		
+	}
+	
+	public Tile getTile2(int x, int y) {
+		if (tiles[x + y * width] == 0xff00ff00) return Tile.grass_tile;
+		else if (tiles[x + y * width] == 0xff0000ff) return Tile.water_tile;
+		return Tile.grass_tile;
+		
 	}
 
 	public Sprite getTile(int x, int y) {
