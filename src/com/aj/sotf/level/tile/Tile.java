@@ -12,6 +12,7 @@ public class Tile {
 	
 	public static Tile grass_tile = new GrassTile(Sprite.s1);
 	public static Tile water_tile = new WaterTile(Sprite.water);
+	public static Tile dirt_tile = new GrassTile(Sprite.dirt);
 	
 	public Tile(Sprite sprite) {
 		this.sprite = sprite;

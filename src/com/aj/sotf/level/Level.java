@@ -77,6 +77,8 @@ public class Level {
 		// add lighting
 //		floodFill(Mouse.getX() / 16, Mouse.getY() / 16, 1.0f);
 		floodFill(player.getX() / 16, player.getY() / 16, 1.0f);
+		
+
 
 //		player.update();
 		player.render(screen);
@@ -124,7 +126,7 @@ public class Level {
 			int yy = y_coords.get(0);
 			float new_intensity = intensity_list.get(0) * 0.95f;
 						
-			if (xx < 0 || xx >= screen.width || yy < 0 || yy >= (screen.height / 16) - 1 || visited[xx + yy * width]) {
+			if (xx < 0 || xx >= screen.width || yy < 0 || yy > (screen.height / 16) + 1 || visited[xx + yy * width]) {
 				removeCoords();
 				continue;
 			}
@@ -174,8 +176,10 @@ public class Level {
 	}
 	
 	public Tile getTile2(int x, int y) {
+		if (x < 0 || x >= width || y <= 0 || y >= height) return Tile.grass_tile;
 		if (tiles[x + y * width] == 0xff00ff00) return Tile.grass_tile;
 		else if (tiles[x + y * width] == 0xff0000ff) return Tile.water_tile;
+		else if (tiles[x + y * width] == 0xff7a3b00) return Tile.dirt_tile;
 		return Tile.grass_tile;
 		
 	}
