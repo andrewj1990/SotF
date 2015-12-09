@@ -75,8 +75,9 @@ public class Level {
 //		}
 		
 		// add lighting
-//		floodFill(Mouse.getX() / 16, Mouse.getY() / 16, 1.0f);
 		floodFill(player.getX() / 16, player.getY() / 16, 1.0f);
+//		floodFill(Mouse.getX() / 16, Mouse.getY() / 16, 1.0f, 100);
+//		floodFill(player.getX() / 16, player.getY() / 16, 1.0f, 97);
 		
 
 
@@ -85,6 +86,7 @@ public class Level {
 //		floodFill2(5,5, 1.0f);
 	}
 	
+	// dfs floodfill
 	public void floodFill2(int x, int y, float intensity) {
 
 		int coord = x + y * width;
@@ -115,6 +117,41 @@ public class Level {
 		if (y_coords.size() > 0) y_coords.remove(0);
 		if (intensity_list.size() > 0) intensity_list.remove(0);
 	}
+
+	public void floodFill(int x, int y, float intensity, int size) {
+
+		addCoords(x, y, intensity);
+
+		while (x_coords.size() > 0 && x_coords.size() < size) {
+			int xx = x_coords.get(0);
+			int yy = y_coords.get(0);
+			float new_intensity = intensity_list.get(0) * 1.0f;
+						
+			if (xx < 0 || xx >= screen.width || yy < 0 || yy > (screen.height / 16) + 1 || visited[xx + yy * width]) {
+				removeCoords();
+				continue;
+			}
+			
+			visited[xx + yy * width] = true;
+			
+			getTile2(xx, yy).render(xx, yy, new_intensity, screen);
+			
+			addCoords(xx + 1, yy, new_intensity);
+			addCoords(xx, yy + 1, new_intensity);
+			addCoords(xx - 1, yy, new_intensity);
+			addCoords(xx, yy - 1, new_intensity);
+			removeCoords();
+			
+		}
+		
+		x_coords.clear();
+		y_coords.clear();
+		
+		for (int i = 0; i < visited.length; i++) {
+			visited[i] = false;
+		}
+	}
+
 	
 	// bfs floodfill
 	public void floodFill(int x, int y, float intensity) {
@@ -124,7 +161,7 @@ public class Level {
 		while (x_coords.size() > 0) {
 			int xx = x_coords.get(0);
 			int yy = y_coords.get(0);
-			float new_intensity = intensity_list.get(0) * 0.95f;
+			float new_intensity = intensity_list.get(0) * 0.98f;
 						
 			if (xx < 0 || xx >= screen.width || yy < 0 || yy > (screen.height / 16) + 1 || visited[xx + yy * width]) {
 				removeCoords();
@@ -146,9 +183,6 @@ public class Level {
 		for (int i = 0; i < visited.length; i++) {
 			visited[i] = false;
 		}
-		
-		
-		
 	}
 	
 	public void testRender(int xx, int yy, Screen screen) {
