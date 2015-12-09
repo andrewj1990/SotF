@@ -25,6 +25,9 @@ public class Level {
 	private Keyboard keys;
 	private Player player;
 	
+	private int xOffset;
+	private int yOffset;
+	
 	private List<Integer> x_coords = new ArrayList<Integer>();
 	private List<Integer> y_coords = new ArrayList<Integer>();
 	private List<Float> intensity_list = new ArrayList<Float>();
@@ -32,11 +35,16 @@ public class Level {
 	private boolean[] visited;
 	
 	public Level(String path, Screen screen, Mouse mouse, Keyboard keys) {
+		this.xOffset = 20;
+		this.yOffset = 0;
 		loadLevel(path);
 		this.screen = screen;
 		visited = new boolean[width * height];
 		this.mouse = mouse;
-		player = new Player(5, 5, keys, this);
+		this.keys = keys;
+		
+		
+		player = new Player(screen.width / 2, screen.height / 2, keys, this, 16);
 	}
 	
 	public void loadLevel(String path) {
@@ -57,33 +65,35 @@ public class Level {
 	}
 	
 	public void render() {
-
-//		for (int i = 0; i < screen.pixels.length; i++) {
-//			screen.pixels[i] = SpriteSheet.tiles.pixels[i];
-//		}
-	
-//		testRender(0, 0, screen);
-//		testRender(1, 0, screen);
-				
+		
 //		for (int y = 0; y < height; y++) {
 //			for (int x = 0; x < width; x++) {
 ////				System.out.println("x : " + x + ", y : " + y + ", colour : " + tiles[x + y * width]);
 ////				screen.pixels[x + y * screen.width] = Sprite.s1.pixels[x + y * Sprite.s1.size];
-//				getTile(x, y).render(x, y, 1.0f, screen);
+//				getTile2(x + xOffset, y + yOffset).render(x, y, 1.0f, screen);
 ////				testRender(x, y, screen);
 //			}
 //		}
 		
 		// add lighting
-		floodFill(player.getX() / 16, player.getY() / 16, 1.0f);
+		floodFill(player.getX() / player.size, player.getY() / player.size, 1.0f);
 //		floodFill(Mouse.getX() / 16, Mouse.getY() / 16, 1.0f, 100);
 //		floodFill(player.getX() / 16, player.getY() / 16, 1.0f, 97);
 		
-
-
-//		player.update();
 		player.render(screen);
-//		floodFill2(5,5, 1.0f);
+	}
+	
+	public int getXOffset() {
+		return xOffset;
+	}
+	
+	public int getYOffset() {
+		return yOffset;
+	}
+	
+	public void setOffset(int x, int y) {
+		xOffset = x;
+		yOffset = y;
 	}
 	
 	// dfs floodfill
@@ -161,16 +171,16 @@ public class Level {
 		while (x_coords.size() > 0) {
 			int xx = x_coords.get(0);
 			int yy = y_coords.get(0);
-			float new_intensity = intensity_list.get(0) * 0.98f;
+			float new_intensity = intensity_list.get(0) * 0.97f;
 						
-			if (xx < 0 || xx >= screen.width || yy < 0 || yy > (screen.height / 16) + 1 || visited[xx + yy * width]) {
+			if (xx < 0 || xx >= screen.width || yy < 0 || yy > (screen.height / player.size) + 1 || visited[xx + yy * width]) {
 				removeCoords();
 				continue;
 			}
 			
 			visited[xx + yy * width] = true;
 			
-			getTile2(xx, yy).render(xx, yy, new_intensity, screen);
+			getTile2(xx + xOffset, yy + yOffset).render(xx, yy, new_intensity, screen);
 			
 			addCoords(xx + 1, yy, new_intensity);
 			addCoords(xx, yy + 1, new_intensity);
@@ -210,11 +220,11 @@ public class Level {
 	}
 	
 	public Tile getTile2(int x, int y) {
-		if (x < 0 || x >= width || y <= 0 || y >= height) return Tile.grass_tile;
+		if (x < 0 || x >= width || y <= 0 || y >= height) return Tile.water_tile;
 		if (tiles[x + y * width] == 0xff00ff00) return Tile.grass_tile;
 		else if (tiles[x + y * width] == 0xff0000ff) return Tile.water_tile;
 		else if (tiles[x + y * width] == 0xff7a3b00) return Tile.dirt_tile;
-		return Tile.grass_tile;
+		return Tile.water_tile;
 		
 	}
 

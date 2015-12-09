@@ -19,13 +19,16 @@ public class Player extends Entity {
 	
 	private int offset = 0;
 	private Level level;
+
+	public int size;
 	
-	public Player(int x, int y, Keyboard keys, Level level) {
+	public Player(int x, int y, Keyboard keys, Level level, int size) {
 		this.x = (x / 16) * 16;
 		this.y = (y / 16) * 16;
 		tileX = this.x;
 		tileY = this.y;
 		
+		this.size = size;
 		
 		this.keys = keys;
 		this.level = level;
@@ -52,30 +55,28 @@ public class Player extends Entity {
 		keys.update();
 		dx = 0; 
 		dy = 0;
-		if (keys.up) {
-			dy = -1;
-			offset = 16;
+
+		if (keys.right) {			
+			dx++;
 		}
 		if (keys.down) {
-			dy = 1;
-			offset = 0;
+			dy++;
 		}
-		if (keys.right) {
-			dx = 1;
+		if (keys.up) {
+			dy--;
 		}
 		if (keys.left) {
-			dx = -1;
+			dx--;
 		}
 		
-		if (!level.getTile2((tileX / 16)+dx, (tileY/16) + dy).solid()) {
-			tileX += dx * move_speed;
-			tileY += dy * move_speed;
-			x = (tileX / 16) * 16;
-			y = (tileY / 16) * 16;
+		if (!level.getTile2((x / size) + dx + level.getXOffset(), (y / size) + level.getYOffset()).solid()) {
+			level.setOffset(level.getXOffset() + dx, level.getYOffset());
 		}
-		
-//		x = (Mouse.getX() / 16) * 16;
-//		y = (Mouse.getY() / 16) * 16;
+
+		if (!level.getTile2((x / size) + level.getXOffset(), (y / size) + dy + level.getYOffset()).solid()) {
+			level.setOffset(level.getXOffset(), level.getYOffset() + dy);
+		}
+
 	}
 	
 	public int getX() {
@@ -87,11 +88,9 @@ public class Player extends Entity {
 	}
 	
 	public void render(Screen screen) {
-
-//		System.out.println("x :" + x + ", y : " + y);
-		for (int yy = this.y; yy < y + 16; yy++) {
+		for (int yy = this.y; yy < y + size; yy++) {
 			if (yy < 0 || yy >= screen.height) break;
-			for (int xx = this.x; xx < x + 16; xx++) {
+			for (int xx = this.x; xx < x + size; xx++) {
 				if (xx < 0 || xx >= screen.width) break;
 				screen.pixels[xx + yy * screen.width] = sprite[(xx-x + offset) + (yy-y) * width];
 			}
