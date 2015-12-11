@@ -16,6 +16,11 @@ public class Sprite {
 	public static Sprite water2 = new Sprite(1, 1, 16, SpriteSheet.tiles);
 	public static Sprite dirt = new Sprite(1, 0, 16, SpriteSheet.tiles);
 	
+	public static Sprite player_up = new Sprite(0, 0, 16, SpriteSheet.player);
+	public static Sprite player_up2 = new Sprite(1, 0, 16, SpriteSheet.player);
+	public static Sprite player_up3 = new Sprite(2, 0 , 16, SpriteSheet.player);
+	
+	
 	public Sprite(int x, int y, int size, SpriteSheet sheet) {
 		this.size = size;
 		this.x = x * size;
@@ -53,6 +58,7 @@ public class Sprite {
 //				System.out.println("xa : " + xa + ", ya : " + ya);
 				
 				int colour = pixels[x + y * size];
+				if (colour == 0xFFFF00FF) continue;
 				int r = (colour >> 16) & 0xff;
 				int g = (colour >>  8) & 0xff;
 				int b = (colour) & 0xff;

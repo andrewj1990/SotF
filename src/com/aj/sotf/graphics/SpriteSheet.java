@@ -14,6 +14,7 @@ public class SpriteSheet {
 	
 //	public static SpriteSheet background = new SpriteSheet("/res/levels/level.png");
 	public static SpriteSheet tiles = new SpriteSheet("/spritesheet/spritesheet.png");
+	public static SpriteSheet player = new SpriteSheet("/spritesheet/player.png");
 	
 	public SpriteSheet(String path) {
 		this.path = path;

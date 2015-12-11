@@ -1,9 +1,6 @@
 package com.aj.sotf.entity;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import com.aj.sotf.graphics.Sprite;
 
 public class Entity {
 
@@ -12,7 +9,7 @@ public class Entity {
 
 	protected int width;
 	protected int height;
-	protected int[] sprite;
+	protected Sprite sprite;
 	
 	public Entity() {
 		
