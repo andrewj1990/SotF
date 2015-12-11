@@ -12,6 +12,7 @@ public class Sprite {
 	
 	public static Sprite s1 = new Sprite(0, 0, 16, SpriteSheet.tiles);
 	public static Sprite s2 = new Sprite(1, 0, 16, SpriteSheet.tiles);
+	public static Sprite grass = new Sprite(2, 0, 16, SpriteSheet.tiles);
 	public static Sprite water = new Sprite(0, 1, 16, SpriteSheet.tiles);
 	public static Sprite water2 = new Sprite(1, 1, 16, SpriteSheet.tiles);
 	public static Sprite dirt = new Sprite(1, 0, 16, SpriteSheet.tiles);
@@ -19,6 +20,18 @@ public class Sprite {
 	public static Sprite player_up = new Sprite(0, 0, 16, SpriteSheet.player);
 	public static Sprite player_up2 = new Sprite(1, 0, 16, SpriteSheet.player);
 	public static Sprite player_up3 = new Sprite(2, 0 , 16, SpriteSheet.player);
+	
+	public static Sprite player_right = new Sprite(0, 1, 16, SpriteSheet.player);
+	public static Sprite player_right2 = new Sprite(1, 1, 16, SpriteSheet.player);
+	public static Sprite player_right3 = new Sprite(2, 1, 16, SpriteSheet.player);
+
+	public static Sprite player_down = new Sprite(0, 2, 16, SpriteSheet.player);
+	public static Sprite player_down2 = new Sprite(1, 2, 16, SpriteSheet.player);
+	public static Sprite player_down3 = new Sprite(2, 2, 16, SpriteSheet.player);
+
+	public static Sprite player_left = new Sprite(0, 3, 16, SpriteSheet.player);
+	public static Sprite player_left2 = new Sprite(1, 3, 16, SpriteSheet.player);
+	public static Sprite player_left3 = new Sprite(2, 3, 16, SpriteSheet.player);
 	
 	
 	public Sprite(int x, int y, int size, SpriteSheet sheet) {

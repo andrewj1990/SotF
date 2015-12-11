@@ -17,6 +17,9 @@ public class Player extends Entity {
 	private int tileY;
 	private int dx = 0;
 	private int dy = 0;
+	
+	// north = 0 | east = 1 | south = 2 | west = 3
+	private int direction = 0;
 
 	boolean moving = false;
 	
@@ -67,18 +70,22 @@ public class Player extends Entity {
 		if (keys.right) {		
 			dx++;
 			moving = true;
+			direction = 1;
 		}
 		if (keys.down) {
 			dy++;
 			moving = true;
+			direction = 2;
 		}
 		if (keys.up) {
 			dy--;
 			moving = true;
+			direction = 0;
 		}
 		if (keys.left) {
 			dx--;
 			moving = true;
+			direction = 3;
 		}
 
 		if (anim < 500) {
@@ -108,15 +115,48 @@ public class Player extends Entity {
 	public void render(Screen screen) {
 		if (moving) {
 			int temp = anim % 20;
-			if (temp < 5) {
-				sprite = Sprite.player_up;
-			} else if (temp >= 5 && temp < 10) {
-				sprite = Sprite.player_up2;
-			} else if (temp >= 10 && temp < 15) {
-				sprite = Sprite.player_up;
-			} else {
-				sprite = Sprite.player_up3;
+			if (direction == 0) {				
+				if (temp < 5) {
+					sprite = Sprite.player_up;
+				} else if (temp >= 5 && temp < 10) {
+					sprite = Sprite.player_up2;
+				} else if (temp >= 10 && temp < 15) {
+					sprite = Sprite.player_up;
+				} else {
+					sprite = Sprite.player_up3;
+				}
+			} else if (direction == 1) {
+				if (temp < 5) {
+					sprite = Sprite.player_right;
+				} else if (temp >= 5 && temp < 10) {
+					sprite = Sprite.player_right2;
+				} else if (temp >= 10 && temp < 15) {
+					sprite = Sprite.player_right;
+				} else {
+					sprite = Sprite.player_right3;
+				}				
+			} else if (direction == 2) {
+				if (temp < 5) {
+					sprite = Sprite.player_down;
+				} else if (temp >= 5 && temp < 10) {
+					sprite = Sprite.player_down2;
+				} else if (temp >= 10 && temp < 15) {
+					sprite = Sprite.player_down;
+				} else {
+					sprite = Sprite.player_down3;
+				}
+			} else {				
+				if (temp < 5) {
+					sprite = Sprite.player_left;
+				} else if (temp >= 5 && temp < 10) {
+					sprite = Sprite.player_left2;
+				} else if (temp >= 10 && temp < 15) {
+					sprite = Sprite.player_left;
+				} else {
+					sprite = Sprite.player_left3;
+				}
 			}
+			
 			moving = false;
 		}
 		

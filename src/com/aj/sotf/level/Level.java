@@ -221,7 +221,9 @@ public class Level {
 	
 	public Tile getTile2(int x, int y) {
 		if (x < 0 || x >= width || y <= 0 || y >= height) return Tile.water_tile;
-		if (tiles[x + y * width] == 0xff00ff00) return Tile.grass_tile;
+		
+		if (tiles[x + y * width] == 0xff00ff00) return Tile.grass_tile2;
+		else if (tiles[x + y * width] == 0xff000064) return Tile.anim_water_tile;
 		else if (tiles[x + y * width] == 0xff0000ff) return Tile.water_tile;
 		else if (tiles[x + y * width] == 0xff7a3b00) return Tile.dirt_tile;
 		return Tile.water_tile;

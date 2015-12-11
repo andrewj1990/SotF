@@ -11,7 +11,9 @@ public class Tile {
 	Sprite sprite;
 	
 	public static Tile grass_tile = new GrassTile(Sprite.s1);
-	public static Tile water_tile = new WaterTile(Sprite.water);
+	public static Tile grass_tile2 = new GrassTile(Sprite.grass);
+	public static Tile water_tile = new WaterTile(Sprite.water2);
+	public static Tile anim_water_tile = new AnimWaterTile(Sprite.water);
 	public static Tile dirt_tile = new GrassTile(Sprite.dirt);
 	
 	public Tile(Sprite sprite) {
